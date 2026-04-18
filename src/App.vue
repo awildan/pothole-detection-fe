@@ -1,20 +1,16 @@
 <script setup lang="ts">
-import { Button } from '@/components/ui/button'
+import AppHeader from '@/components/layout/AppHeader.vue'
+import MobileBottomNav from '@/components/layout/MobileBottomNav.vue'
 </script>
 
 <template>
-  <div class="h-screen w-full bg-slate-900 flex flex-col items-center justify-center text-white">
-    <h1 class="text-5xl font-black text-yellow-400 drop-shadow-lg">Pothole Detector</h1>
-    <p class="mt-4 text-lg text-slate-400">
-      Deteksi lubang jalan dengan mudah menggunakan teknologi terkini. Cukup unggah foto jalan, dan
-      biarkan sistem kami menganalisisnya untuk menemukan lubang yang tersembunyi. Dengan Pothole
-      Detector, Anda dapat membantu meningkatkan keselamatan jalan dan mengurangi risiko kecelakaan
-      akibat lubang yang tidak terlihat. Mulailah deteksi sekarang dan jadilah bagian dari solusi
-      untuk jalan yang lebih aman!
-    </p>
+  <div class="min-h-dvh bg-muted/40 pb-24 md:pb-10 text-foreground flex flex-col font-sans">
+    <AppHeader />
 
-    <Button> Mulai Deteksi </Button>
+    <main class="mx-auto w-full max-w-3xl px-4 py-6 md:px-6 md:py-10 flex-1">
+      <RouterView />
+    </main>
+
+    <MobileBottomNav />
   </div>
 </template>
-
-<style scoped></style>
