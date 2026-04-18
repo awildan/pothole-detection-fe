@@ -16,9 +16,10 @@ export default defineConfig({
       registerType: 'autoUpdate', // Auto update service worker
       includeAssets: [
         'favicon.ico',
-        'apple-icon.png',
-        'icon-light-32x32.png',
-        'icon-dark-32x32.png',
+        'apple-touch-icon.png',
+        'favicon-32x32.png',
+        'android-chrome-192x192.png',
+        'android-chrome-512x512.png',
       ],
       manifest: {
         name: 'PotholeDetect',
@@ -30,12 +31,12 @@ export default defineConfig({
         orientation: 'portrait',
         icons: [
           {
-            src: '/icon-light-32x32.png',
+            src: '/favicon-32x32.png',
             sizes: '32x32',
             type: 'image/png',
           },
           {
-            src: '/apple-icon.png',
+            src: '/apple-touch-icon.png',
             sizes: '180x180',
             type: 'image/png',
             purpose: 'apple touch icon',
