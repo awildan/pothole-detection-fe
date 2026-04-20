@@ -8,13 +8,15 @@ import { Loader2 } from 'lucide-vue-next'
     <div class="flex items-center gap-2 text-xs font-medium text-muted-foreground">
       <Loader2 class="size-4 animate-spin" />
       <span class="font-mono uppercase tracking-wider">
-        Running inference · RT-DETR &amp; YOLO
+        Running inference · RT-DETR, YOLO11, YOLO26 &amp; YOLOv8
       </span>
     </div>
 
     <div class="flex items-center gap-2">
-      <Skeleton class="h-8 w-28 rounded-md" />
-      <Skeleton class="h-8 w-28 rounded-md" />
+      <Skeleton class="h-8 w-20 rounded-md" />
+      <Skeleton class="h-8 w-20 rounded-md" />
+      <Skeleton class="h-8 w-20 rounded-md" />
+      <Skeleton class="h-8 w-20 rounded-md" />
     </div>
 
     <Skeleton class="aspect-[4/3] w-full rounded-lg" />

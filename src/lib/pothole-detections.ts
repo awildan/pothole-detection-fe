@@ -1,47 +1,82 @@
-export type BoundingBox = {
-  id: string
-  /** percentages (0–100) of image dimensions */
-  x: number
-  y: number
-  w: number
-  h: number
-  label: string
-  confidence: number
-}
-
-export type ModelKey = "rt-detr" | "yolo"
-
-export type ModelResult = {
-  key: ModelKey
-  name: string
-  latencyMs: number
-  boxes: BoundingBox[]
-}
-
 /**
- * Mock detections used to simulate the output of the two models.
- * Values are in percentages so they scale with the rendered image.
+ * Type definitions for the Pothole Detection API response.
+ *
+ * Maps to the backend schema returned by POST /api/v1/predict.
  */
-export const MOCK_RESULTS: Record<ModelKey, ModelResult> = {
-  "rt-detr": {
-    key: "rt-detr",
-    name: "RT-DETR",
-    latencyMs: 184,
-    boxes: [
-      { id: "r1", x: 12, y: 44, w: 24, h: 20, label: "Pothole", confidence: 0.92 },
-      { id: "r2", x: 54, y: 36, w: 16, h: 13, label: "Pothole", confidence: 0.87 },
-      { id: "r3", x: 32, y: 70, w: 20, h: 16, label: "Pothole", confidence: 0.78 },
-    ],
-  },
-  yolo: {
-    key: "yolo",
-    name: "YOLO",
-    latencyMs: 62,
-    boxes: [
-      { id: "y1", x: 14, y: 42, w: 26, h: 22, label: "Pothole", confidence: 0.89 },
-      { id: "y2", x: 53, y: 35, w: 18, h: 15, label: "Pothole", confidence: 0.83 },
-      { id: "y3", x: 70, y: 55, w: 15, h: 12, label: "Pothole", confidence: 0.71 },
-      { id: "y4", x: 31, y: 69, w: 21, h: 17, label: "Pothole", confidence: 0.65 },
-    ],
-  },
+
+// ── Individual detection ────────────────────────────────────────────
+
+export interface Detection {
+  class_id: number
+  class_name: string
+  confidence: number
+  bbox: {
+    x_min: number
+    y_min: number
+    x_max: number
+    y_max: number
+  }
+  area_pixels: number
+}
+
+// ── Per-model summary stats ─────────────────────────────────────────
+
+export interface ModelSummary {
+  total_detections: number
+  average_confidence: number
+  inference_time_ms: number
+}
+
+// ── Single model result ─────────────────────────────────────────────
+
+export interface ModelResult {
+  model_name: string
+  predicted_image_url: string
+  detections: Detection[]
+  summary: ModelSummary
+}
+
+// ── Image metadata ──────────────────────────────────────────────────
+
+export interface ImageMetadata {
+  width: number
+  height: number
+  format: string
+}
+
+// ── Full prediction payload (inside `data`) ─────────────────────────
+
+export interface PredictionData {
+  prediction_id: string
+  original_image_url: string
+  image_metadata: ImageMetadata
+  models_used: string[]
+  results: ModelResult[]
+  created_at: string
+}
+
+// ── Top-level API response ──────────────────────────────────────────
+
+export interface PredictionResponse {
+  success: boolean
+  message: string
+  data: PredictionData
+}
+
+// ── Accent colors per model (used for UI styling) ───────────────────
+
+export const MODEL_COLORS: Record<string, string> = {
+  rtdetr: '#ea580c',   // orange-600
+  yolo11: '#0ea5e9',   // sky-500
+  yolo26: '#8b5cf6',   // violet-500
+  yolov8: '#10b981',   // emerald-500
+}
+
+// ── Human-readable model labels ─────────────────────────────────────
+
+export const MODEL_LABELS: Record<string, string> = {
+  rtdetr: 'RT-DETR',
+  yolo11: 'YOLO11',
+  yolo26: 'YOLO26',
+  yolov8: 'YOLOv8',
 }
