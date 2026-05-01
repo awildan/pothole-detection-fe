@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ScanLine, Github, History } from 'lucide-vue-next'
+import { Github, History } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import { RouterLink } from 'vue-router'
 </script>
@@ -10,11 +10,11 @@ import { RouterLink } from 'vue-router'
   >
     <div class="mx-auto flex h-14 w-full max-w-3xl items-center justify-between px-4 md:px-6">
       <RouterLink to="/" class="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
-        <div
-          class="flex size-8 items-center justify-center rounded-md bg-foreground text-background"
-        >
-          <ScanLine class="size-4" aria-hidden="true" />
-        </div>
+        <img
+          src="/public/android-chrome-192x192.png"
+          alt="pothole-detect-logo"
+          class="size-8 rounded-md"
+        />
         <div class="flex items-baseline gap-2">
           <span class="text-sm font-semibold tracking-tight"> PotholeDetect </span>
           <span
@@ -38,7 +38,16 @@ import { RouterLink } from 'vue-router'
           </RouterLink>
         </Button>
 
-        <Button variant="ghost" size="icon" class="text-muted-foreground" aria-label="View source">
+        <Button
+          as="a"
+          variant="ghost"
+          size="icon"
+          class="text-muted-foreground"
+          aria-label="View source"
+          href="https://github.com/awildan/pothole-detection-fe"
+          target="_blank"
+          rel="noopener"
+        >
           <Github class="size-4" />
         </Button>
       </div>
