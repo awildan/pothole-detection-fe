@@ -28,30 +28,34 @@ function getModelLabel(modelName: string): string {
       <TabsList
         :class="[
           'grid w-full',
-          prediction.results.length === 4 ? 'grid-cols-4' : `grid-cols-${prediction.results.length}`,
+          prediction.results.length === 4
+            ? 'grid-cols-4'
+            : `grid-cols-${prediction.results.length}`,
         ]"
       >
         <TabsTrigger
           v-for="result in prediction.results"
           :key="result.model_name"
           :value="result.model_name"
-          class="font-mono text-xs"
+          class="font-mono text-xs cursor-pointer"
         >
           {{ getModelLabel(result.model_name) }}
         </TabsTrigger>
       </TabsList>
     </div>
 
-    <TabsContent 
-      v-for="result in prediction.results" 
-      :key="result.model_name" 
-      :value="result.model_name" 
+    <TabsContent
+      v-for="result in prediction.results"
+      :key="result.model_name"
+      :value="result.model_name"
       class="mt-4 space-y-4"
     >
       <div class="flex flex-wrap items-center gap-2">
         <Badge variant="secondary" class="gap-1 font-mono">
           <Target class="size-3" aria-hidden="true" />
-          {{ result.summary.total_detections }} pothole{{ result.summary.total_detections !== 1 ? 's' : '' }}
+          {{ result.summary.total_detections }} pothole{{
+            result.summary.total_detections !== 1 ? 's' : ''
+          }}
         </Badge>
         <Badge variant="outline" class="gap-1 font-mono">
           <Clock class="size-3" aria-hidden="true" />

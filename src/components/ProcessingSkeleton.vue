@@ -19,7 +19,7 @@ import { Loader2 } from 'lucide-vue-next'
       <Skeleton class="h-8 w-20 rounded-md" />
     </div>
 
-    <Skeleton class="aspect-[4/3] w-full rounded-lg" />
+    <Skeleton class="aspect-4/3 w-full rounded-lg" />
 
     <div class="space-y-2">
       <Skeleton class="h-10 w-full rounded-md" />
