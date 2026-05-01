@@ -44,7 +44,7 @@ import { RouterLink } from 'vue-router'
           size="icon"
           class="text-muted-foreground"
           aria-label="View source"
-          href="https://github.com/awildan/pothole-detection-fe"
+          href="https://github.com/stars/awildan/lists/pothole-detection"
           target="_blank"
           rel="noopener"
         >
