@@ -22,14 +22,66 @@ const startCamera = async () => {
       error.value = 'Camera not supported on this device.'
       return
     }
-    mediaStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: 'environment' },
+
+    // Enumerate devices to find the primary back camera
+    const devices = await navigator.mediaDevices.enumerateDevices()
+    const videoDevices = devices
+      .filter((device) => device.kind === 'videoinput')
+      .sort((a, b) => {
+        const aNum = parseInt(a.label.match(/camera (\d+)/i)?.[1] || '999')
+        const bNum = parseInt(b.label.match(/camera (\d+)/i)?.[1] || '999')
+        return aNum - bNum
+      })
+
+    // Try to find the primary back camera (now sorted, so lowest number first)
+    let selectedDeviceId: string | undefined = undefined
+    for (const device of videoDevices) {
+      if (
+        device.label.toLowerCase().includes('back') ||
+        device.label.toLowerCase().includes('rear') ||
+        device.label.toLowerCase().includes('primary')
+      ) {
+        selectedDeviceId = device.deviceId
+        break
+      }
+    }
+
+    // If no primary found, use the first back camera (prefer lower camera number)
+    if (!selectedDeviceId) {
+      const backCameras = videoDevices
+        .filter(
+          (d) =>
+            !d.label.toLowerCase().includes('wide') && !d.label.toLowerCase().includes('ultra'),
+        )
+        .sort((a, b) => {
+          const aNum = parseInt(a.label.match(/camera (\d+)/i)?.[1] || '999')
+          const bNum = parseInt(b.label.match(/camera (\d+)/i)?.[1] || '999')
+          return aNum - bNum
+        })
+      if (backCameras.length > 0) {
+        selectedDeviceId = backCameras[0]?.deviceId
+      }
+    }
+
+    const constraints = {
+      video: {
+        deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
+        facingMode: selectedDeviceId ? undefined : 'environment',
+        width: { ideal: 1920, min: 1280 },
+        height: { ideal: 1080, min: 720 },
+        frameRate: { ideal: 60, min: 30 },
+      },
       audio: false,
-    })
+    }
+
+    mediaStream = await navigator.mediaDevices.getUserMedia(constraints)
 
     if (videoRef.value) {
       videoRef.value.srcObject = mediaStream
       await videoRef.value.play()
+      // Set video dimensions to match stream for better quality
+      videoRef.value.width = videoRef.value.videoWidth
+      videoRef.value.height = videoRef.value.videoHeight
       streaming.value = true
     }
   } catch (err) {
@@ -64,12 +116,14 @@ const capture = () => {
   if (!ctx) return
 
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
-  const url = canvas.toDataURL('image/jpeg', 0.9)
+  const url = canvas.toDataURL('image/jpeg', 1.0)
   shot.value = url
 }
 
 const retake = () => {
   shot.value = null
+  streaming.value = false
+  startCamera()
 }
 </script>
 
@@ -98,6 +152,7 @@ const retake = () => {
           class="absolute inset-0 h-full w-full object-cover"
           playsinline
           muted
+          style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges"
         ></video>
         <div class="pointer-events-none absolute inset-6 rounded-xl border border-white/30"></div>
         <div

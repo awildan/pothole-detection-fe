@@ -23,7 +23,7 @@ function getModelLabel(modelName: string): string {
 </script>
 
 <template>
-  <Tabs :defaultValue="defaultTab" class="w-full">
+  <Tabs :defaultValue="defaultTab" :unmount-on-hide="false" class="w-full">
     <div class="flex items-center justify-between gap-2">
       <TabsList
         :class="[

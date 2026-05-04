@@ -66,10 +66,10 @@ export interface PredictionResponse {
 // ── Accent colors per model (used for UI styling) ───────────────────
 
 export const MODEL_COLORS: Record<string, string> = {
-  rtdetr: '#ea580c',   // orange-600
-  yolo11: '#0ea5e9',   // sky-500
-  yolo26: '#8b5cf6',   // violet-500
-  yolov8: '#10b981',   // emerald-500
+  rtdetr: '#ea580c', // orange-600
+  yolo11: '#0ea5e9', // sky-500
+  yolo26: '#8b5cf6', // violet-500
+  yolov8: '#10b981', // emerald-500
 }
 
 // ── Human-readable model labels ─────────────────────────────────────

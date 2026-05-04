@@ -11,7 +11,7 @@ import { RouterLink } from 'vue-router'
     <div class="mx-auto flex h-14 w-full max-w-3xl items-center justify-between px-4 md:px-6">
       <RouterLink to="/" class="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
         <img
-          src="/public/android-chrome-192x192.png"
+          src="/android-chrome-192x192.png"
           alt="pothole-detect-logo"
           class="size-8 rounded-md"
         />
